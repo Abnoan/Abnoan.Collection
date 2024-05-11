@@ -31,6 +31,7 @@ namespace Abnoan.Collection.Exercicios
             double total = 0;
             if (pedidosPorMesa.ContainsKey(mesa))
             {
+                //total = pedidosPorMesa[mesa].Sum(s => s.CalcularTotal());
                 foreach (var pedido in pedidosPorMesa[mesa])
                 {
                     total += pedido.CalcularTotal();

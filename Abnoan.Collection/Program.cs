@@ -5,7 +5,7 @@ internal class Program
     private static void Main(string[] args)
     {
         #region Ex 1
-        Restaurante restaurante = new Restaurante();
+        Restaurante restaurante = new Restaurante();       
 
         restaurante.AdicionarPedido(1, new Pedido("Hamburger", 2, 28.99));
         restaurante.AdicionarPedido(1, new Pedido("Coca-Cola", 2, 5.50));

@@ -23,9 +23,10 @@ namespace Abnoan.Collection.Exercicios
         public void ListarProdutosMaisVendidos()
         {
             var rankingProdutos = vendas.GroupBy(v => v.ProdutoId)
-                                        .Select(g => new { ProdutoId = g.Key, Quantidade = g.Sum(v => v.Quantidade) })
+                                        .Select(grupo => new { ProdutoId = grupo.Key, Quantidade = grupo.Sum(v => v.Quantidade) })
                                         .OrderByDescending(r => r.Quantidade)
                                         .ToList();
+
             foreach (var item in rankingProdutos)
             {
                 var produto = produtos.FirstOrDefault(p => p.Id == item.ProdutoId);
@@ -38,6 +39,7 @@ namespace Abnoan.Collection.Exercicios
             var vendasCategoria = vendas.Join(produtos, v => v.ProdutoId, p => p.Id, (v, p) => new { p.Categoria, v.Quantidade })
                                         .GroupBy(vp => vp.Categoria)
                                         .ToList();
+
             foreach (var categoria in vendasCategoria)
             {
                 Console.WriteLine($"Categoria: {categoria.Key}, Vendas: {categoria.Sum(x => x.Quantidade)}");
