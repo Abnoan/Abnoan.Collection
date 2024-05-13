@@ -36,13 +36,19 @@ namespace Abnoan.Collection.Exercicios
 
         public void ListarVendasPorCategoria()
         {
-            var vendasCategoria = vendas.Join(produtos, v => v.ProdutoId, p => p.Id, (v, p) => new { p.Categoria, v.Quantidade })
-                                        .GroupBy(vp => vp.Categoria)
-                                        .ToList();
+            // var vendasCategoria = vendas.Join(produtos, v => v.ProdutoId, p => p.Id, (v, p) => new { p.Categoria, v.Quantidade })
+            //                             .GroupBy(vp => vp.Categoria)
+            //                             .ToList();
 
-            foreach (var categoria in vendasCategoria)
+            var vendasPorCategoria = vendas.Where(v => produtos.Any(p => v.ProdutoId == p.Id))
+                               .GroupBy(v => produtos.FirstOrDefault(p => v.ProdutoId == p.Id)?.Categoria)
+                               .Select(grupo => new { Categoria = grupo.Key, Vendas = grupo.Sum(x => x.Quantidade) })
+                               .ToList();
+
+
+            foreach (var categoria in vendasPorCategoria)
             {
-                Console.WriteLine($"Categoria: {categoria.Key}, Vendas: {categoria.Sum(x => x.Quantidade)}");
+                Console.WriteLine($"Categoria: {categoria.Categoria}, Vendas: {categoria.Vendas}");
             }
         }
 
